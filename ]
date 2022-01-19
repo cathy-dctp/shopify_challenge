@@ -52,7 +52,7 @@
 
  <div class="field">
     <%= form.label :variations %>
-    <%= text_field_tag "item[variations][]", item.variations %>
+    <%= form.text_field_tag "item[variations][]", item.varations %>
   </div>
 
   <div class="actions">

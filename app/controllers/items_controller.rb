@@ -21,6 +21,7 @@ class ItemsController < ApplicationController
 
   # POST /items
   def create
+    split_variations
     @item = Item.new(item_params)
 
     if @item.save
@@ -34,6 +35,7 @@ class ItemsController < ApplicationController
 
   # PATCH/PUT /items/1
   def update
+    split_variations
     if @item.update(item_params)
       redirect_to items_path, notice: 'Item was successfully updated.'
     else
@@ -55,6 +57,12 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:name, :desc, :qty, :tags, :retail_price, :wholesale_price, :last_updated, :supplier)
+      params.require(:item).permit(:name, :desc, :qty, :tags, :retail_price, :wholesale_price,
+                                   :last_updated, :supplier, variations: [])
     end
+
+    def split_variations
+      params[:item][:variations] = params[:item][:variations].first.split(",").map(&:strip)
+    end
+
 end

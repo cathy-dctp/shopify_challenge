@@ -12,4 +12,23 @@
  *
  *= require_tree .
  *= require_self
+ *= require font-awesome
  */
+
+.title {
+     position: relative;
+     left: 20rem;
+     font-weight: 1000;
+ }
+
+.home {
+    position: absolute;
+    margin-top: 0.5rem;
+    top: 1rem;
+    left: 2rem;
+    z-index: 10;
+}
+
+.notice {
+    width: 50rem;
+}

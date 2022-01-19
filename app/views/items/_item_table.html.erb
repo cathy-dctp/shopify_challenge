@@ -1,0 +1,40 @@
+<table class="table table-sm table-striped ml-4"  style="max-width: 60rem;">
+  <thead class="thead-dark">
+    <tr>
+      <%# <th style="text-align:center">Level</th> %>
+      <th>Name</th>
+      <th>Desc</th>
+      <th>Quantity</th>
+      <th>Tags</th>
+      <th>Retail price</th>
+      <th>Wholesale price</th>
+      <%# <th>Last updated</th> %>
+      <th>Supplier</th>
+      <th>Variations</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <% items.each do |item| %>
+    <tr>
+      <td><%= link_to item.name, item %></td>
+      <td><%= item.desc %></td>
+      <td style="text-align:center"><%= item.qty %></td>
+      <td><%= item.tags.map { |tag| tag.name }.join(", ") %></td>
+      <td><%= item.retail_price %></td>
+      <td><%= item.wholesale_price %></td>
+      <td><%= item.supplier %></td>
+      <td><%= item.variations.join(", ") %></td>
+
+      <td style="text-align:center">
+        <%= form_with url: edit_item_path(item), method: :get, local: true do |f| %>
+          <%= f.submit 'Edit', class: "btn btn-default btn-primary" %>
+        <% end %>
+      </td>
+      <td style="text-align:center">
+        <%= form_with model: item, method: :delete, local: true do |f| %>
+          <%= f.submit 'Delete', class: "btn btn-default btn-primary" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

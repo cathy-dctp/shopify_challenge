@@ -24,8 +24,10 @@ class ItemsController < ApplicationController
     @item = Item.new(item_params)
 
     if @item.save
-      redirect_to @item, notice: 'Item was successfully created.'
+      flash[:notice] = "Successfully added #{@item.name} to the inventory"
+      redirect_to items_path
     else
+      flash[:notice] = "Error creating item. Please try again!"
       render :new
     end
   end
@@ -33,7 +35,7 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1
   def update
     if @item.update(item_params)
-      redirect_to @item, notice: 'Item was successfully updated.'
+      redirect_to items_path, notice: 'Item was successfully updated.'
     else
       render :edit
     end
@@ -53,6 +55,6 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:name, :desc, :tags, :retail_price, :wholesale_price, :last_updated, :supplier)
+      params.require(:item).permit(:name, :desc, :qty, :tags, :retail_price, :wholesale_price, :last_updated, :supplier)
     end
 end

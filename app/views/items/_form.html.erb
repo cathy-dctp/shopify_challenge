@@ -22,9 +22,18 @@
   </div>
 
   <div class="field">
+    <%= form.label :qty %>
+    <%= form.number_field :qty %>
+  </div>
+
+  <%
+=begin%>
+ <div class="field">
     <%= form.label :tags %>
     <%= form.text_area :tags %>
-  </div>
+  </div> 
+<%
+=end%>
 
   <div class="field">
     <%= form.label :retail_price %>
@@ -37,14 +46,18 @@
   </div>
 
   <div class="field">
-    <%= form.label :last_updated %>
-    <%= form.datetime_select :last_updated %>
-  </div>
-
-  <div class="field">
     <%= form.label :supplier %>
     <%= form.text_field :supplier %>
   </div>
+
+  <%
+=begin%>
+ <div class="field">
+    <%= form.label :variation %>
+    <%= form.text_area :variation %>
+  </div> 
+<%
+=end%>
 
   <div class="actions">
     <%= form.submit %>

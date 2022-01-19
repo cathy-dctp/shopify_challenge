@@ -24,11 +24,19 @@
         <td><%= item.tags %></td>
         <td><%= item.retail_price %></td>
         <td><%= item.wholesale_price %></td>
-        <td><%= item.last_updated %></td>
         <td><%= item.supplier %></td>
         <td><%= link_to 'Show', item %></td>
         <td><%= link_to 'Edit', edit_item_path(item) %></td>
-        <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%
+=begin%>
+ <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+<%
+=end%>
+        <td><%= form_with model: item, method: :delete, local: true do |f| %>
+            <%= f.submit 'Delete' %>
+            <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -36,4 +44,7 @@
 
 <br>
 
+<p>
 <%= link_to 'New Item', new_item_path %>
+<%= link_to "Home", root_path %>
+</p>  

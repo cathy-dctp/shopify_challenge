@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
 
   # GET /items
   def index
@@ -21,19 +21,23 @@ class ItemsController < ApplicationController
 
   # POST /items
   def create
+    split_variations
     @item = Item.new(item_params)
 
     if @item.save
-      redirect_to @item, notice: 'Item was successfully created.'
+      flash[:notice] = "Successfully added #{@item.name} to the inventory"
+      redirect_to items_path
     else
+      flash[:notice] = "Error creating item. Please try again!"
       render :new
     end
   end
 
   # PATCH/PUT /items/1
   def update
+    split_variations
     if @item.update(item_params)
-      redirect_to @item, notice: 'Item was successfully updated.'
+      redirect_to items_path, notice: 'Item was successfully updated.'
     else
       render :edit
     end
@@ -45,6 +49,28 @@ class ItemsController < ApplicationController
     redirect_to items_url, notice: 'Item was successfully destroyed.'
   end
 
+  def remove_tag
+    tag = Tag.where(name: params[:tag]).first
+    if tag and @item.tags.exists?(tag.id) and @item.tags.delete(tag)
+      flash[:notice] = "Successfully remove #{tag.name} to #{@item.name}."
+    else
+        flash[:notice] = "Unable to find #{params[:tag]}."
+    end
+
+    redirect_to items_url
+  end
+
+  def add_tag
+    tag = Tag.where(name: params[:tag]).first_or_create
+    if not @item.tags.exists?(tag.id) and @item.tags << tag
+        flash[:notice] = "Successfully add #{tag.name} to #{@item.name}."
+    else
+        flash[:notice] = "Unable to add #{tag.name} to #{@item.name}."
+    end
+
+    redirect_to items_url
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item
@@ -53,6 +79,12 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:name, :desc, :tags, :retail_price, :wholesale_price, :last_updated, :supplier)
+      params.require(:item).permit(:name, :desc, :qty, :tags, :retail_price, :wholesale_price,
+                                   :last_updated, :supplier, variations: [])
     end
+
+    def split_variations
+      params[:item][:variations] = params[:item][:variations].first.split(",").map(&:strip)
+    end
+
 end

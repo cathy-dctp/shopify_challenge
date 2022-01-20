@@ -5,7 +5,7 @@ Filtering based on fields/inventory count/tags/other metadata
 
 * Ruby version: 3.0.1 
 * Heroku link: https://shopify-challenge-cathy-pham.herokuapp.com/
-* Deployment instructions
+
 Instructions on how to get the application running on your local machine:
 1. Go to https://github.com/cathy-dctp/shopify_challenge
 2. Open a terminal and clone your repo by taking the ssh link from github and do: 

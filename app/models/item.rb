@@ -18,8 +18,7 @@ class Item < ApplicationRecord
     )
 
     scope :with_tags, ->(tag_name) {
-      # tags_names = tag_names.split(",").map(&:strip)
-      Tag.where(name: tag_name).items
+      Tag.where(name: tag_name).first_or_create.items
     }
 
     scope :search_query, ->(query) {

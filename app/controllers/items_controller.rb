@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
 
   # GET /items
   def index
@@ -47,6 +47,28 @@ class ItemsController < ApplicationController
   def destroy
     @item.destroy
     redirect_to items_url, notice: 'Item was successfully destroyed.'
+  end
+
+  def remove_tag
+    tag = Tag.where(name: params[:tag]).first
+    if tag and @item.tags.exists?(tag.id) and @item.tags.delete(tag)
+      flash[:notice] = "Successfully remove #{tag.name} to #{@item.name}."
+    else
+        flash[:notice] = "Unable to find #{params[:tag]}."
+    end
+
+    redirect_to items_url
+  end
+
+  def add_tag
+    tag = Tag.where(name: params[:tag]).first_or_create
+    if not @item.tags.exists?(tag.id) and @item.tags << tag
+        flash[:notice] = "Successfully add #{tag.name} to #{@item.name}."
+    else
+        flash[:notice] = "Unable to add #{tag.name} to #{@item.name}."
+    end
+
+    redirect_to items_url
   end
 
   private

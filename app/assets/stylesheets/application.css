@@ -32,3 +32,15 @@
 .notice {
     width: 50rem;
 }
+
+.tag_edit {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5px
+}
+
+.add_tag {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}

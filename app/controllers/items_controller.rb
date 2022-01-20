@@ -3,7 +3,20 @@ class ItemsController < ApplicationController
 
   # GET /items
   def index
-    @items = Item.all
+
+    @filterrific = initialize_filterrific(
+      Item,
+      params[:filterrific],
+      persistence_id: "shared_key",
+      available_filters: [:search_query, :with_tags]
+    ) || return
+
+    @items = @filterrific.find.page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /items/1
